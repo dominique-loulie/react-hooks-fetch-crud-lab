@@ -1,18 +1,19 @@
-import Reactfrom, {useState, useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import QuestionItem from "./QuestionItem";
 
+function QuestionList() {
+  const [questionsItems, setQuestionItems] = useState([]);
 
-function QuestionList({mydata, delQuestion, updatedQuestion}) {
- 
-  const dispData = mydata.map((val)=>{
-    return <QuestionItem question ={val} delQuestion={delQuestion} updatedQuestion={updatedQuestion}/>
+  useEffect (() => {
+    fetch("http://localhost:4000/questions")
+    .then ((result) => result.json())
+    .then ((questions) => setQuestionItems(questions))
   })
+
   return (
     <section>
       <h1>Quiz Questions</h1>
-      <ul>
-        {dispData}
-      </ul>
+      <ul>{questionsItems.map((question) => (<QuestionItem question={question}/>))}</ul>
     </section>
   );
 }
